@@ -3,7 +3,6 @@ from pathlib import Path
 import logging
 
 logging.basicConfig(level=logging.INFO,filename='loginfo.log',format='[%(asctime)s]  [%(message)s]')
-
 package_name='Classifier'
 
 list_of_files=[
