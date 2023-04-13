@@ -9,6 +9,7 @@ from box import ConfigBox
 from pathlib import Path
 from typing import Any
 
+
 @ensure_annotations
 def read_yaml(path_to_yaml: Path) -> dict:
     """reads yaml file and returns
@@ -33,11 +34,12 @@ def read_yaml(path_to_yaml: Path) -> dict:
     # except Exception as e:
     #     raise e
 
+
 @ensure_annotations
 def create_directories(path_to_directories: str, verbose=True):
-    os.makedirs(path_to_directories,exist_ok=True)
+    os.makedirs(path_to_directories, exist_ok=True)
     if verbose and not os.path.exists(path_to_directories):
-        logger.info(msg=f'dir created dir path is {path_to_directories}')
+        logger.info(msg=f"dir created dir path is {path_to_directories}")
 
 
 @ensure_annotations
@@ -52,6 +54,7 @@ def save_json(path: Path, data: dict):
         json.dump(data, f, indent=4)
 
     logger.info(f"json file saved at: {path}")
+
 
 @ensure_annotations
 def load_json(path: Path) -> ConfigBox:
@@ -69,6 +72,7 @@ def load_json(path: Path) -> ConfigBox:
     logger.info(f"json file loaded succesfully from: {path}")
     return ConfigBox(content)
 
+
 @ensure_annotations
 def save_bin(data: Any, path: Path):
     """save binary file
@@ -79,6 +83,7 @@ def save_bin(data: Any, path: Path):
     """
     joblib.dump(value=data, filename=path)
     logger.info(f"binary file saved at: {path}")
+
 
 @ensure_annotations
 def load_bin(path: Path) -> Any:
@@ -94,6 +99,7 @@ def load_bin(path: Path) -> Any:
     logger.info(f"binary file loaded from: {path}")
     return data
 
+
 @ensure_annotations
 def get_size(path: Path) -> str:
     """get size in KB
@@ -104,5 +110,5 @@ def get_size(path: Path) -> str:
     Returns:
         str: size in KB
     """
-    size_in_kb = round(os.path.getsize(path)/1024)
+    size_in_kb = round(os.path.getsize(path) / 1024)
     return f"~ {size_in_kb} KB"
