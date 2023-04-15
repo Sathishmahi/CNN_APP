@@ -18,8 +18,8 @@ class DataIngestion:
         download_url = self.data_injectioin_config.source_URL
         local_data_file = self.data_injectioin_config.local_data_file
         folder, _ = local_data_dir = os.path.split(local_data_file)
-        create_directories(folder, True)
-        if os.path.exists(path=local_data_file):
+        create_directories([folder], True)
+        if not os.path.exists(path=local_data_file):
             logger.info(f"start download file ")
             req.urlretrieve(url=download_url, filename=local_data_file)
             logger.info(f"finish download file path is {local_data_file}")
@@ -40,7 +40,7 @@ class DataIngestion:
     def extract_data(self):
         logger.info(f"unzip started...")
         unzip_dir = self.data_injectioin_config.unzip_dir
-        create_directories(path_to_directories=unzip_dir)
+        create_directories(path_to_directories=[unzip_dir])
         local_data_file = self.data_injectioin_config.local_data_file
         with zip(local_data_file) as zf:
             all_content_name_list = zf.namelist()
