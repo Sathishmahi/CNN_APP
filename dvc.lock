@@ -1,0 +1,33 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/Classifier/pipeline/stage_01_data_ingestion.py
+    deps:
+    - path: configs/config.yaml
+      md5: 8313b11d90d81681df2796628cb5aa73
+      size: 918
+    - path: src/Classifier/pipeline/stage_01_data_ingestion.py
+      md5: 3fab3f0b5eafad01aafefadca30a26a5
+      size: 424
+    outs:
+    - path: artifacts/data_ingestion
+      md5: 1d5963b67437dc6e94de340152dcd34d.dir
+      size: 1673753486
+      nfiles: 24999
+  prepare_base_model:
+    cmd: python src/Classifier/pipeline/stage_02_prepare_base_model.py
+    deps:
+    - path: configs/config.yaml
+      md5: 8313b11d90d81681df2796628cb5aa73
+      size: 918
+    - path: params.yaml
+      md5: 8c3f453aea65ea90e3e4ffcd9d51d105
+      size: 135
+    - path: src/Classifier/pipeline/stage_02_prepare_base_model.py
+      md5: fc32895a175191f653e8e03d0bb84f4a
+      size: 436
+    outs:
+    - path: artifacts/prepare_base_model
+      md5: 068efeeae017de5b90a5ed6b008ac5a4.dir
+      size: 118054560
+      nfiles: 2
