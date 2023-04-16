@@ -1,5 +1,5 @@
 from Classifier.constant import *
-from Classifier.entity import BaseModelConfig,CallBacksConfig,DataIngestionConfig,TrainingConfig
+from Classifier.entity import BaseModelConfig,CallBacksConfig,DataIngestionConfig,TrainingConfig,EvalConfig
 from Classifier.utils import read_yaml,create_directories
 from pathlib import Path
 import os
@@ -15,22 +15,27 @@ class Configuration:
         self.prepare_base_model_config = self.get_prepare_base_model_config()
         self.prepare_call_backs_config = self.get_prepare_call_backs()
         self.training_config=self.get_training_config()
+        self.eval_config=self.get_eval_config()
 
     def get_data_ingestion_config(self) -> DataIngestionConfig:
 
         data_injection_config_attr = self.config.get("data_ingestion")
+
+        root_dir=Path(data_injection_config_attr.get("root_dir"))
+        source_URL=data_injection_config_attr.get("source_URL")
+        local_data_file=Path(data_injection_config_attr.get("local_data_file"))
+        unzip_dir=Path(data_injection_config_attr.get("unzip_dir"))
+        eval_dir=Path(data_injection_config_attr.get("eval_dir"))
+        create_directories([root_dir,unzip_dir])
         data_injection_config = DataIngestionConfig(
-            root_dir=Path(data_injection_config_attr.get("root_dir")),
-            source_URL=data_injection_config_attr.get("source_URL"),
-            local_data_file=Path(data_injection_config_attr.get("local_data_file")),
-            unzip_dir=Path(data_injection_config_attr.get("unzip_dir")),
+        root_dir=root_dir, 
+        source_URL=source_URL, 
+        local_data_file=local_data_file, 
+        unzip_dir=unzip_dir,
+        eval_dir=eval_dir
         )
 
-        # create_directories([
-        #     root_dir,
-        #     local_data_file,
-        #     unzip_dir
-        # ])
+        
         return data_injection_config
 
 
@@ -84,15 +89,12 @@ class Configuration:
     def get_training_config(self)->TrainingConfig:
 
         params=self.params
-
         data_file_path=os.path.join(self.data_ingestion_config.unzip_dir,"PetImages")
         updated_model_path=self.prepare_base_model_config.updated_model_path
         image_size=params.get("IAMGE_SIZE")
         epochs=params.get("EPOCHS")
         is_augmented=params.get("AUGMENTATION")
-
-        print(self.config.keys())
-
+        
         training_config_attr=self.config.get("training")
         root_dir=Path(training_config_attr.get("root_dir"))
         trained_model_path=Path(training_config_attr.get("trained_model_path"))
@@ -101,3 +103,17 @@ class Configuration:
         return TrainingConfig(root_dir, 
         trained_model_path, 
         data_file_path, updated_model_path, image_size, epochs, is_augmented)
+
+    def get_eval_config(self)->EvalConfig:
+
+        trained_model_path=self.training_config.trained_model_path
+        eval_data_path=self.data_ingestion_config.eval_dir
+        image_size=self.params.get("IAMGE_SIZE")[:-1]
+
+        eval_config=EvalConfig(
+        eval_data_path=eval_data_path,
+        trained_model_path=trained_model_path,
+        image_size=image_size
+        )
+
+        return eval_config

@@ -2,7 +2,7 @@ from collections import namedtuple
 
 
 DataIngestionConfig = namedtuple(
-    "DataIngestionConfig", ["root_dir", "source_URL", "local_data_file", "unzip_dir"]
+    "DataIngestionConfig", ["root_dir", "source_URL", "local_data_file", "unzip_dir","eval_dir"]
 )
 
 
@@ -43,5 +43,14 @@ TrainingConfig=namedtuple("TrainingConfig",
     "image_size",
     "epochs",
     "is_augmented"
+]
+)
+
+
+EvalConfig=namedtuple("EvalConfig",
+[
+    "eval_data_path",
+    "trained_model_path",
+    "image_size"
 ]
 )
