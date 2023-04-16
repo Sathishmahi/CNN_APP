@@ -1,4 +1,4 @@
-from src.Classifier.components import DataIngestion
+from Classifier.components import DataIngestion
 from Classifier import logger
 
 
