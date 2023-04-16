@@ -16,7 +16,7 @@ class Training:
 
         datagenerator_kwargs = dict(
             rescale = 1./255,
-            validation_split=0.20
+            validation_split=0.10
         )
 
         dataflow_kwargs = dict(
