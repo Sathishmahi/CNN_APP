@@ -13,7 +13,7 @@ def main():
     training.train(
         callback_list=callback_list
     )
-    logger.info(f"x=========     training finish =========X")
+    logger.info(f"x==========     training finish =========X")
 
 if __name__ == '__main__':
     try:
